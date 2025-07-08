@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; }
+        #chat-container { width: 400px; margin: 40px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #ccc; }
+        #chat-box { height: 300px; overflow-y: auto; padding: 16px; border-bottom: 1px solid #eee; }
+        .message { margin: 8px 0; }
+        .user { text-align: right; color: #0078d7; }
+        .bot { text-align: left; color: #333; }
+        #input-area { display: flex; }
+        #user-input { flex: 1; padding: 8px; border: none; border-radius: 0 0 0 8px; }
+        #send-btn { padding: 8px 16px; border: none; background: #0078d7; color: #fff; border-radius: 0 0 8px 0; cursor: pointer; }
+        #send-btn:hover { background: #005fa3; }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <div id="input-area">
+            <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off" />
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+    <script>
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        function appendMessage(text, sender) {
+            const msg = document.createElement('div');
+            msg.className = 'message ' + sender;
+            msg.textContent = text;
+            chatBox.appendChild(msg);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function botReply(input) {
+            // Simple rule-based responses
+            const msg = input.toLowerCase();
+            if (msg.includes('hello') || msg.includes('hi')) {
+                return "Hello ! How can I help you?";
+            } else if (msg.includes('name')) {
+                return "I'm your chatbot!, what can I do for you?";
+            } else if (msg.includes('help')) {
+                return "Sure, ask me anything!";
+            } else if (msg.includes('how are you')) {
+                return "iam fine thank you for asking!,what about you?";
+             } else if (msg.includes('')) {
+                return "Sure, ask me anything!";
+            } else if (msg.includes('goodbye') || msg.includes('bye')) {
+                return "Goodbye! Have a great day!";
+            } else {
+                return "Sorry, I didn't understand that.";
+            }
+        }
+
+        function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+            appendMessage(text, 'user');
+            userInput.value = '';
+            setTimeout(() => {
+                const reply = botReply(text);
+                appendMessage(reply, 'bot');
+            }, 500);
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+</html>
